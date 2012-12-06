@@ -1,8 +1,8 @@
 *AnsiEsc.txt*	Ansi Escape Sequence Visualization		Nov 19, 2012
 
-Author:  Charles E. Campbell, Jr.  <NdrOchip@ScampbellPfamily.AbizM>
+Author:  Charles E. Campbell  <NdrOchip@ScampbellPfamily.AbizM>
 	  (remove NOSPAM from Campbell's email first)
-Copyright: (c) 2004-2012 by Charles E. Campbell, Jr.	*AnsiEsc-copyright*
+Copyright: (c) 2004-2012 by Charles E. Campbell		*AnsiEsc-copyright*
            The VIM LICENSE applies to AnsiEsc.vim and AnsiEsc.txt
            (see |copyright|) except use "AnsiEsc" instead of "Vim".
 	   No warranty, express or implied.  Use At-Your-Own-Risk.
@@ -16,7 +16,7 @@ Copyright: (c) 2004-2012 by Charles E. Campbell, Jr.	*AnsiEsc-copyright*
 ==============================================================================
 2. Manual						*AnsiEsc-manual*
 
-                                                        
+
 	CONCEAL~
 		The best option: for this, your vim must have +conceal. Try either >
 			:version
@@ -37,7 +37,7 @@ Copyright: (c) 2004-2012 by Charles E. Campbell, Jr.	*AnsiEsc-copyright*
 		:AnsiEsc   -- toggles Ansi escape sequence highlighting
 		:AnsiEsc!  -- rebuilds highlighting for new/removed three
 		              or more element Ansi escape sequences.
-	
+
 	RESULT~
 		Ansi escape sequences become concealed or ignored (depending
 		on whether your vim supports Negri's conceal mode), and their
