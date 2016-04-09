@@ -22,6 +22,7 @@ if v:version < 700
  echohl Normal
  finish
 endif
+"DechoTabOn
 let s:keepcpo= &cpo
 set cpo&vim
 
@@ -79,15 +80,15 @@ fun! AnsiEsc#AnsiEsc(rebuild)
     if v:version < 703
      if &l:conc != 3
       let s:conckeep_{bufnr('%')}= &cole
-      setlocal conc=3
-"      call Decho("l:conc=".&l:conc)
+      setl conc=3
+"      call Decho("setl l:conc=".&l:conc)
      endif
     else
      if &l:cole != 3 || &l:cocu != "nv"
       let s:colekeep_{bufnr('%')}= &l:cole
       let s:cocukeep_{bufnr('%')}= &l:cocu
-      setlocal cole=3 cocu=nv
-"      call Decho("l:cole=".&l:cole." l:cocu=".&l:cocu)
+      setl cole=3 cocu=nv
+"      call Decho("setl l:cole=".&l:cole." l:cocu=".&l:cocu)
      endif
     endif
    endif
@@ -623,7 +624,8 @@ fun! AnsiEsc#AnsiEsc(rebuild)
    hi def link ansiExtended	Ignore
   endif
   let s:hlkeep_{bufnr("%")}= &l:hl
-  exe "setlocal hl=".substitute(&hl,'8:[^,]\{-},','8:Ignore,',"")
+"  call Decho("setl hl=".substitute(&hl,'8:[^,]\{-},','8:Ignore,',""))
+  exe "setl hl=".substitute(&hl,'8:[^,]\{-},','8:Ignore,',"")
 
   " handle 3 or more element ansi escape sequences by building syntax and highlighting rules
   " specific to the current file
