@@ -142,6 +142,8 @@ White   [37;40mW[m  [37;41mW[m  [37;42mW[m  [37;43mW[m  [37;44mW[m   
 	Dec 11, 2014	* Implemented implicit foreground/background
 	Jan 10, 2015	* (Evgeny Lukianchikov) provided XUbuntu support for
 			  no-ansi-sequence (AnsiNone)
+	Sep 06, 2016	* Implemented bold/italic/underline without color
+			  specification
   v12	Jul 23, 2010	* changed conc to |'cole'| to correspond to vim 7.3's
 			  change
 			* for menus, &go =~# used to insure correct case

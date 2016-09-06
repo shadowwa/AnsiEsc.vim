@@ -1,8 +1,8 @@
 " AnsiEsc.vim: Uses vim 7.0 syntax highlighting
 " Language:		Text with ansi escape sequences
 " Maintainer:	Charles E. Campbell <NdrOchipS@PcampbellAfamily.Mbiz>
-" Version:		13i	ASTRO-ONLY
-" Date:		Apr 02, 2015
+" Version:		13j	ASTRO-ONLY
+" Date:		Sep 06, 2016
 "
 " Usage: :AnsiEsc  (toggles)
 " Note:   This plugin requires +conceal
@@ -15,7 +15,7 @@
 if exists("g:loaded_AnsiEsc")
  finish
 endif
-let g:loaded_AnsiEsc = "v13i"
+let g:loaded_AnsiEsc = "v13j"
 if v:version < 700
  echohl WarningMsg
  echo "***warning*** this version of AnsiEsc needs vim 7.0"
@@ -32,8 +32,8 @@ fun! AnsiEsc#AnsiEsc(rebuild)
 "  call Dfunc("AnsiEsc#AnsiEsc(rebuild=".a:rebuild.")")
   if a:rebuild
 "   call Decho("rebuilding AnsiEsc tables")
-   call AnsiEsc#AnsiEsc(0)
-   call AnsiEsc#AnsiEsc(0)
+   call AnsiEsc#AnsiEsc(0)   " toggle AnsiEsc off
+   call AnsiEsc#AnsiEsc(0)   " toggle AnsiEsc back on
 "   call Dret("AnsiEsc#AnsiEsc")
    return
   endif
@@ -117,6 +117,10 @@ fun! AnsiEsc#AnsiEsc(rebuild)
   syn region ansiNone		start="\e\[\%(0;\)\=39m"     skip='\e\[K' end="\e\["me=e-2 contains=ansiConceal
   syn region ansiNone		start="\e\[\%(0;\)\=49m"     skip='\e\[K' end="\e\["me=e-2 contains=ansiConceal
   syn region ansiNone		start="\e\[\%(0;\)\=22m"     skip='\e\[K' end="\e\["me=e-2 contains=ansiConceal
+
+  syn region ansiBold		start="\e\[;\=0\{0,2};\=1m"  skip='\e\[K' end="\e\["me=e-2 contains=ansiConceal	nextgroup=@AnsiBoldGroup
+  syn region ansiItalic		start="\e\[;\=0\{0,2};\=3m"  skip='\e\[K' end="\e\["me=e-2 contains=ansiConceal	nextgroup=@AnsiItalicGroup
+  syn region ansiUnderline	start="\e\[;\=0\{0,2};\=4m"  skip='\e\[K' end="\e\["me=e-2 contains=ansiConceal	nextgroup=@AnsiUnderlineGroup
 
   syn region ansiBlack		start="\e\[;\=0\{0,2};\=30m" skip='\e\[K' end="\e\["me=e-2 contains=ansiConceal
   syn region ansiRed		start="\e\[;\=0\{0,2};\=31m" skip='\e\[K' end="\e\["me=e-2 contains=ansiConceal
@@ -204,6 +208,60 @@ fun! AnsiEsc#AnsiEsc(rebuild)
 "   " handles implicit background highlighting
 "   "-----------------------------------------
 "   call Decho("installing implicit background highlighting")
+
+   syn cluster AnsiBoldGroup    contains=ansiInheritBoldBlack,ansiInheritBoldRed,ansiInheritBoldGreen,ansiInheritBoldYellow,ansiInheritBoldBlue,ansiInheritBoldMagenta,ansiInheritBoldCyan,ansiInheritBoldWhite
+   syn region ansiInheritBoldBlack		contained	start="\e\[30m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiBoldGroup
+   syn region ansiInheritBoldRed		contained	start="\e\[31m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiBoldGroup
+   syn region ansiInheritBoldGreen		contained	start="\e\[32m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiBoldGroup
+   syn region ansiInheritBoldYellow		contained	start="\e\[33m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiBoldGroup
+   syn region ansiInheritBoldBlue		contained	start="\e\[34m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiBoldGroup
+   syn region ansiInheritBoldMagenta	contained	start="\e\[35m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiBoldGroup
+   syn region ansiInheritBoldCyan		contained	start="\e\[36m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiBoldGroup
+   syn region ansiInheritBoldWhite		contained	start="\e\[37m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiBoldGroup
+   hi link ansiInheritBoldBlack		ansiBoldBlack
+   hi link ansiInheritBoldRed		ansiBoldRed
+   hi link ansiInheritBoldGreen		ansiBoldGreen
+   hi link ansiInheritBoldYellow		ansiBoldYellow
+   hi link ansiInheritBoldBlue		ansiBoldBlue
+   hi link ansiInheritBoldMagenta		ansiBoldMagenta
+   hi link ansiInheritBoldCyan		ansiBoldCyan
+   hi link ansiInheritBoldWhite		ansiBoldWhite
+
+   syn cluster AnsiItalicGroup    contains=ansiInheritItalicBlack,ansiInheritItalicRed,ansiInheritItalicGreen,ansiInheritItalicYellow,ansiInheritItalicBlue,ansiInheritItalicMagenta,ansiInheritItalicCyan,ansiInheritItalicWhite
+   syn region ansiInheritItalicBlack	contained	start="\e\[30m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiItalicGroup
+   syn region ansiInheritItalicRed		contained	start="\e\[31m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiItalicGroup
+   syn region ansiInheritItalicGreen	contained	start="\e\[32m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiItalicGroup
+   syn region ansiInheritItalicYellow	contained	start="\e\[33m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiItalicGroup
+   syn region ansiInheritItalicBlue		contained	start="\e\[34m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiItalicGroup
+   syn region ansiInheritItalicMagenta	contained	start="\e\[35m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiItalicGroup
+   syn region ansiInheritItalicCyan		contained	start="\e\[36m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiItalicGroup
+   syn region ansiInheritItalicWhite	contained	start="\e\[37m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiItalicGroup
+   hi link ansiInheritItalicBlack		ansiItalicBlack
+   hi link ansiInheritItalicRed		ansiItalicRed
+   hi link ansiInheritItalicGreen		ansiItalicGreen
+   hi link ansiInheritItalicYellow		ansiItalicYellow
+   hi link ansiInheritItalicBlue		ansiItalicBlue
+   hi link ansiInheritItalicMagenta		ansiItalicMagenta
+   hi link ansiInheritItalicCyan		ansiItalicCyan
+   hi link ansiInheritItalicWhite		ansiItalicWhite
+
+   syn cluster AnsiUnderlineGroup    contains=ansiInheritUnderlineBlack,ansiInheritUnderlineRed,ansiInheritUnderlineGreen,ansiInheritUnderlineYellow,ansiInheritUnderlineBlue,ansiInheritUnderlineMagenta,ansiInheritUnderlineCyan,ansiInheritUnderlineWhite
+   syn region ansiInheritUnderlineBlack	contained	start="\e\[30m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiUnderlineGroup
+   syn region ansiInheritUnderlineRed	contained	start="\e\[31m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiUnderlineGroup
+   syn region ansiInheritUnderlineGreen	contained	start="\e\[32m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiUnderlineGroup
+   syn region ansiInheritUnderlineYellow	contained	start="\e\[33m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiUnderlineGroup
+   syn region ansiInheritUnderlineBlue	contained	start="\e\[34m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiUnderlineGroup
+   syn region ansiInheritUnderlineMagenta	contained	start="\e\[35m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiUnderlineGroup
+   syn region ansiInheritUnderlineCyan	contained	start="\e\[36m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiUnderlineGroup
+   syn region ansiInheritUnderlineWhite	contained	start="\e\[37m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=ansiConceal	nextgroup=@AnsiUnderlineGroup
+   hi link ansiInheritUnderlineBlack	ansiUnderlineBlack
+   hi link ansiInheritUnderlineRed		ansiUnderlineRed
+   hi link ansiInheritUnderlineGreen	ansiUnderlineGreen
+   hi link ansiInheritUnderlineYellow	ansiUnderlineYellow
+   hi link ansiInheritUnderlineBlue		ansiUnderlineBlue
+   hi link ansiInheritUnderlineMagenta	ansiUnderlineMagenta
+   hi link ansiInheritUnderlineCyan		ansiUnderlineCyan
+   hi link ansiInheritUnderlineWhite	ansiUnderlineWhite
 
    syn cluster AnsiBlackBgGroup contains=ansiBgBlackBlack,ansiBgRedBlack,ansiBgGreenBlack,ansiBgYellowBlack,ansiBgBlueBlack,ansiBgMagentaBlack,ansiBgCyanBlack,ansiBgWhiteBlack
    syn region ansiBlackBg	concealends	matchgroup=ansiNone start="\e\[;\=0\{0,2};\=\%(1;\)\=40\%(;1\)\=m" skip='\e\[K' end="\e\[[04m]"me=e-3  contains=@AnsiBlackBgGroup,ansiConceal
@@ -631,7 +689,10 @@ fun! AnsiEsc#AnsiEsc(rebuild)
   " specific to the current file
   call s:MultiElementHandler()
 
-  hi ansiNone	cterm=NONE gui=NONE
+  hi ansiNone	cterm=NONE       gui=NONE
+  hi ansiBold           cterm=bold       gui=bold
+  hi ansiItalic         cterm=italic     gui=italic
+  hi ansiUnderline      cterm=underline  gui=underline
 
   if &t_Co == 8 || &t_Co == 256
    " ---------------------
