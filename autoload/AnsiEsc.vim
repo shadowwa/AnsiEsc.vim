@@ -1,8 +1,8 @@
 " AnsiEsc.vim: Uses vim 7.0 syntax highlighting
 " Language:		Text with ansi escape sequences
 " Maintainer:	Charles E. Campbell <NdrOchipS@PcampbellAfamily.Mbiz>
-" Version:		13j	ASTRO-ONLY
-" Date:		Sep 06, 2016
+" Version:		13l	ASTRO-ONLY
+" Date:		Feb 18, 2017
 "
 " Usage: :AnsiEsc  (toggles)
 " Note:   This plugin requires +conceal
@@ -15,7 +15,7 @@
 if exists("g:loaded_AnsiEsc")
  finish
 endif
-let g:loaded_AnsiEsc = "v13j"
+let g:loaded_AnsiEsc = "v13l"
 if v:version < 700
  echohl WarningMsg
  echo "***warning*** this version of AnsiEsc needs vim 7.0"
@@ -110,6 +110,12 @@ fun! AnsiEsc#AnsiEsc(rebuild)
   " ------------------------------
   " Ansi Escape Sequence Handling: {{{2
   " ------------------------------
+  if has("conceal")
+   syn match ansiConceal		contained conceal	"\e\[\(\d*;\)*\d*m\|\e\[K"
+  else
+   syn match ansiConceal		contained		"\e\[\(\d*;\)*\d*m\|\e\[K"
+  endif
+
   syn region ansiNone		start="\e\[[01;]m"  skip='\e\[K' end="\e\["me=e-2 contains=ansiConceal
   syn region ansiNone		start="\e\[m"       skip='\e\[K' end="\e\["me=e-2 contains=ansiConceal
   syn region ansiNone		start="\e\[\%(0;\)\=39;49m"  skip='\e\[K' end="\e\["me=e-2 contains=ansiConceal
@@ -477,7 +483,7 @@ fun! AnsiEsc#AnsiEsc(rebuild)
    hi link ansiFgGreenCyan	ansiGreenCyan
    hi link ansiFgGreenWhite	ansiGreenWhite
 
-   syn cluster AnsiYellowFgGroup contains=ansiFgYellowBlack,ansiFgYellowRed,ansiFgYellowGreen,ansiFgYellowYellow,ansiFgYellowBlue,ansiFgYellowMagenta,ansiFgYellowCyan,ansiFgYellowWhite
+   syn cluster AnsiYellowFgGroup contains=ansiFgYellowBlack,ansiFgYellowRed,ansiFgYellowGreen,ansiFgYellowYellow,ansiFgYellowBlue,ansiFgYellowMagenta,ansiFgYellowCyan,ansiFgYellowWhite,cecJUNK
    syn region ansiYellowFg	concealends matchgroup=ansiNone start="\e\[;\=0\{0,2};\=\%(1;\)\=33\%(;1\)\=m" skip='\e\[K' end="\e\[[03m]"me=e-3  contains=@AnsiYellowFgGroup,ansiConceal
    syn region ansiFgYellowBlack	contained	start="\e\[40m" skip='\e\[K' end="\e\[[04m]"me=e-3 contains=ansiConceal
    syn region ansiFgYellowRed	contained	start="\e\[41m" skip='\e\[K' end="\e\[[04m]"me=e-3 contains=ansiConceal
@@ -662,12 +668,6 @@ fun! AnsiEsc#AnsiEsc(rebuild)
 
   syn match ansiExtended	"\e\[;\=\(0;\)\=[34]8;\(\d*;\)*\d*m"   contains=ansiConceal
 
-  if has("conceal")
-   syn match ansiConceal		contained conceal	"\e\[\(\d*;\)*\d*m\|\e\[K"
-  else
-   syn match ansiConceal		contained		"\e\[\(\d*;\)*\d*m\|\e\[K"
-  endif
-
   " -------------
   " Highlighting: {{{2
   " -------------
@@ -689,10 +689,26 @@ fun! AnsiEsc#AnsiEsc(rebuild)
   " specific to the current file
   call s:MultiElementHandler()
 
-  hi ansiNone	cterm=NONE       gui=NONE
-  hi ansiBold           cterm=bold       gui=bold
-  hi ansiItalic         cterm=italic     gui=italic
-  hi ansiUnderline      cterm=underline  gui=underline
+  if exists("g:ansiNone")
+   exe g:ansiNone
+  else
+   hi ansiNone	cterm=NONE       gui=NONE
+  endif
+  if exists("g:ansiBold")
+   exe g:ansiBold
+  else
+   hi ansiBold           cterm=bold       gui=bold
+  endif
+  if exists("g:ansiItalic")
+   exe g:ansiItalic
+  else
+   hi ansiItalic         cterm=italic     gui=italic
+  endif
+  if exists("g:ansiUnderline")
+   exe ansiUnderline
+  else
+   hi ansiUnderline      cterm=underline  gui=underline
+  endif
 
   if &t_Co == 8 || &t_Co == 256
    " ---------------------
@@ -1161,38 +1177,102 @@ fun! s:MultiElementHandler()
       let mod=mod."reverse,"
 
      elseif code == 30
-      let fg= "black"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+        let fg= "gray18"
+       else
+        let fg= "black"
+       endif
      elseif code == 31
-      let fg= "red"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let fg= "red3"
+      else
+       let fg= "red"
+      endif
      elseif code == 32
-      let fg= "green"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let fg= "green3"
+      else
+       let fg= "green"
+      endif
      elseif code == 33
-      let fg= "yellow"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let fg= "yellow3"
+      else
+       let fg= "yellow"
+      endif
      elseif code == 34
-      let fg= "blue"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let fg= "blue3"
+      else
+       let fg= "blue"
+      endif
      elseif code == 35
-      let fg= "magenta"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let fg= "magenta3"
+      else
+       let fg= "magenta"
+      endif
      elseif code == 36
-      let fg= "cyan"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let fg= "cyan3"
+      else
+       let fg= "cyan"
+      endif
      elseif code == 37
-      let fg= "white"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let fg= "gray81"
+      else
+       let fg= "white"
+      endif
 
      elseif code == 40
-      let bg= "black"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let bg= "gray9"
+      else
+       let bg= "black"
+      endif
      elseif code == 41
-      let bg= "red"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let bg= "red4"
+      else
+       let bg= "red"
+      endif
      elseif code == 42
-      let bg= "green"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let bg= "green4"
+      else
+       let bg= "green"
+      endif
      elseif code == 43
-      let bg= "yellow"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let bg= "yellow4"
+      else
+       let bg= "yellow"
+      endif
      elseif code == 44
-      let bg= "blue"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let bg= "blue4"
+      else
+       let bg= "blue"
+      endif
      elseif code == 45
-      let bg= "magenta"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let bg= "magenta4"
+      else
+       let bg= "magenta"
+      endif
      elseif code == 46
-      let bg= "cyan"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let bg= "cyan4"
+      else
+       let bg= "cyan"
+      endif
      elseif code == 47
-      let bg= "white"
+      if has("gui") && has("gui_running") && mod =~ "bold"
+       let bg= "gray50"
+      else
+       let bg= "white"
+      endif
 
      elseif code == 38
       let skip= 38
@@ -1208,6 +1288,7 @@ fun! s:MultiElementHandler()
     let mod= substitute(mod,',$','','')
 
     " build syntax-recognition rule
+    "   (ansi-escape multi-element handler rule)
     let mehcnt  = mehcnt + 1
     let synrule = "syn region ansiMEH".mehcnt
     let synrule = synrule.' start="\e\['.ansiesc.'"'

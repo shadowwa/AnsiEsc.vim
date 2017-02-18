@@ -1,8 +1,8 @@
-*AnsiEsc.txt*	Ansi Escape Sequence Visualization		Jan 10, 2015
+*AnsiEsc.txt*	Ansi Escape Sequence Visualization		Feb 18, 2017
 
 Author:  Charles E. Campbell  <NdrOchip@ScampbellPfamily.AbizM>
 	  (remove NOSPAM from Campbell's email first)
-Copyright: (c) 2004-2014 by Charles E. Campbell		*AnsiEsc-copyright*
+Copyright: (c) 2004-2017 by Charles E. Campbell		*AnsiEsc-copyright*
            The VIM LICENSE applies to AnsiEsc.vim and AnsiEsc.txt
            (see |copyright|) except use "AnsiEsc" instead of "Vim".
 	   No warranty, express or implied.  Use At-Your-Own-Risk.
@@ -51,6 +51,26 @@ Copyright: (c) 2004-2014 by Charles E. Campbell		*AnsiEsc-copyright*
 		examining the file for such sequences and only building syntax
 		highlighting rules for such sequences as are actually present
 		in the document.
+	
+
+	CUSTOMIZATION~
+		AnsiEsc does not know how to read what your terminal does with
+		several escape sequences.  One may customize what AnsiEsc does
+		with these by specifying global variables which specify the
+		desired highlighting:
+
+		*g:ansiNone* use this variable to specify what should be done
+		with <esc>[0m and <esc>[m. Example: >
+			let g:ansiNone="hi gui=NONE cterm=NONE fg=white bg=black ctermfg=7"
+<
+		*g:ansiBold* use this variable to specify what should be
+		done with <esc>[1m
+
+		*g:ansiItalic* use this variable to specify what should be
+		done with <esc>[3m
+
+		*g:ansiUnderline* use this variable to specify what should be
+		done with <esc>[4m
 
 	EXAMPLE~
 
@@ -144,6 +164,9 @@ White   [37;40mW[m  [37;41mW[m  [37;42mW[m  [37;43mW[m  [37;44mW[m   
 			  no-ansi-sequence (AnsiNone)
 	Sep 06, 2016	* Implemented bold/italic/underline without color
 			  specification
+	Feb 18, 2017	* ansiConceal priority overruled foregroup specs
+			  containing background specs.
+			  (reported by Lucas Hoffman)
   v12	Jul 23, 2010	* changed conc to |'cole'| to correspond to vim 7.3's
 			  change
 			* for menus, &go =~# used to insure correct case
