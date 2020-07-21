@@ -1,6 +1,6 @@
-*AnsiEsc.txt*	Ansi Escape Sequence Visualization		May 01, 2019
+*AnsiEsc.txt*	Ansi Escape Sequence Visualization		Jul 21, 2020
 
-Author:  Charles E. Campbell  <NdrOchip@ScampbellPfamily.AbizM>
+Author:  Charles E. Campbell  <NcampObell@SdrPchip.AorgM-NOSPAM>
 	  (remove NOSPAM from Campbell's email first)
 Copyright: (c) 2004-2017 by Charles E. Campbell		*AnsiEsc-copyright*
            The VIM LICENSE applies to AnsiEsc.vim and AnsiEsc.txt
@@ -195,6 +195,9 @@ a variable set of syntax highlighting rules.  I did it this way because things
 	May 01, 2019	* (barrie) reported that <esc>[24m was showing up as
 			  a "stray m".  Reason: ansiSuppress wasn't handling
 			  the code.
+	Jul 21, 2020	* (Sergey Vlasov) reported that bold text atop
+			  variously colored backgrounds wasn't being
+			  highlighted.
   v12	Jul 23, 2010	* changed conc to |'cole'| to correspond to vim 7.3's
 			  change
 			* for menus, &go =~# used to insure correct case
