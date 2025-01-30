@@ -120,6 +120,7 @@ fun! AnsiEsc#AnsiEsc(rebuild)
    syn match ansiConceal		contained		"\e\[\(\d*;\)*\d*m\|\e\[K"
   endif
 
+  syn region ansiLink		start="\e]8;;"               skip='\e\[K' end="\e\\"  conceal
   syn region ansiNone		start="\e\[[01;]m"           skip='\e\[K' end="\ze\e\[" contains=ansiConceal
   syn region ansiNone		start="\e\[m"                skip='\e\[K' end="\ze\e\[" contains=ansiConceal
   syn region ansiNone		start="\e\[\%(0;\)\=39;49m"  skip='\e\[K' end="\ze\e\[" contains=ansiConceal
@@ -814,7 +815,7 @@ fun! AnsiEsc#AnsiEsc(rebuild)
   syn region ansiBlueRed	start="\e\[0\{0,2};\=\(34;41\|41;34\)m" end="\ze\e\[" contains=ansiConceal
   syn region ansiMagentaRed	start="\e\[0\{0,2};\=\(35;41\|41;35\)m" end="\ze\e\[" contains=ansiConceal
   syn region ansiCyanRed	start="\e\[0\{0,2};\=\(36;41\|41;36\)m" end="\ze\e\[" contains=ansiConceal
-  syn region ansiWhiteRed	start="\e\[0\{0,2};\=\(37;41\|41;37\)m" end="\ze\e\[" contains=ansiConceal
+  syn region ansiWhiteRed	start="\e\[0\{0,2};\=\([93]7;41\|41;[93]7\)m" end="\ze\e\[" contains=ansiConceal
 
   syn region ansiBlackGreen	start="\e\[0\{0,2};\=\(30;42\|42;30\)m" end="\ze\e\[" contains=ansiConceal
   syn region ansiRedGreen	start="\e\[0\{0,2};\=\(31;42\|42;31\)m" end="\ze\e\[" contains=ansiConceal
